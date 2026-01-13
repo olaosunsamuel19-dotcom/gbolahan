@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Free LinkedIn Milestone Graphic Generator - Create professional connection milestone graphics in seconds">
+    <meta property="og:title" content="LinkedIn Milestone Generator - Free Template">
+    <meta property="og:description" content="Create stunning LinkedIn milestone graphics for 500, 1K, 5K, 10K+ connections">
+    <meta property="og:type" content="website">
+    <title>LinkedIn Milestone Generator - Free Template</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800;900&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: linear-gradient(135deg, #0f0f0f 0%, #1a1a2e 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .page-container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #0a66c2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            letter-spacing: -1px;
+        }
+
+        .header p {
+            font-size: 20px;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 300;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .controls h2 {
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            letter-spacing: -0.5px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .input-group label {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            color: #fff;
+            padding: 14px 24px;
+            font-size: 20px;
+            font-weight: 700;
+            font-family: 'Outfit', sans-serif;
+            width: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #0a66c2;
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1);
+        }
+
+        .btn-download {
+            background: linear-gradient(135deg, #0a66c2 0%, #004182 100%);
+            color: white;
+            border: none;
+            padding: 16px 40px;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(10, 102, 194, 0.3);
+        }
+
+        .btn-download:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(10, 102, 194, 0.5);
+        }
+
+        .btn-download:active {
+            transform: translateY(0);
+        }
+
+        .btn-download:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .info-section {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .info-section h3 {
+            color: #38bdf8;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 15px;
+            line-height: 1.8;
+        }
+
+        .info-section ul li {
+            padding-left: 25px;
+            position: relative;
+            margin-bottom: 8px;
+        }
+
+        .info-section ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: #38bdf8;
+            font-weight: 700;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .graphic {
+            width: 1080px;
+            height: 1080px;
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 100%);
+            position: relative;
+            overflow: hidden;
+            border-radius: 0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Animated background gradient mesh */
+        .bg-gradient {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(10, 102, 194, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(56, 189, 248, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%);
+            animation: gradientShift 20s ease infinite;
+            filter: blur(80px);
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-10%, -10%) rotate(120deg); }
+            66% { transform: translate(10%, 10%) rotate(240deg); }
+        }
+
+        /* Grid overlay */
+        .grid-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.5;
+        }
+
+        /* Noise texture */
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.05;
+            mix-blend-mode: overlay;
+        }
+
+        .content {
+            position: relative;
+            z-index: 1;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+            text-align: center;
+        }
+
+        /* LinkedIn logo with glow */
+        .linkedin-badge {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #0a66c2 0%, #0077b5 100%);
+            border-radius: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+            box-shadow: 
+                0 0 60px rgba(10, 102, 194, 0.5),
+                0 20px 40px rgba(0, 0, 0, 0.3);
+            animation: pulse 3s ease-in-out infinite;
+            position: relative;
+        }
+
+        .linkedin-badge::before {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 26px;
+            background: linear-gradient(135deg, #0a66c2, #38bdf8);
+            opacity: 0.5;
+            filter: blur(20px);
+            animation: glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes glow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+
+        .linkedin-badge svg {
+            width: 70px;
+            height: 70px;
+            fill: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Main number with dramatic styling */
+        .milestone-number {
+            font-size: 240px;
+            font-weight: 900;
+            line-height: 0.9;
+            background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #0a66c2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -8px;
+            margin-bottom: 30px;
+            font-family: 'Outfit', sans-serif;
+            text-shadow: 0 0 80px rgba(56, 189, 248, 0.5);
+            position: relative;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0%, 100% { 
+                background-position: 0% 50%;
+                filter: brightness(1);
+            }
+            50% { 
+                background-position: 100% 50%;
+                filter: brightness(1.2);
+            }
+        }
+
+        .milestone-number::after {
+            content: attr(data-number);
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.3), rgba(10, 102, 194, 0.3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: blur(40px);
+            z-index: -1;
+        }
+
+        /* Text styling */
+        .connections-text {
+            font-size: 72px;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            opacity: 0.95;
+            font-family: 'Space Mono', monospace;
+        }
+
+        .tagline {
+            font-size: 36px;
+            font-weight: 300;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 700px;
+            line-height: 1.4;
+            margin-bottom: 60px;
+            letter-spacing: -0.5px;
+        }
+
+        .tagline strong {
+            font-weight: 600;
+            color: #38bdf8;
+        }
+
+        /* Decorative elements */
+        .decorative-line {
+            width: 200px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #0a66c2, transparent);
+            margin: 40px auto;
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(10, 102, 194, 0.6);
+        }
+
+        /* Floating particles */
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #38bdf8;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: float 4s ease-in-out infinite;
+            box-shadow: 0 0 10px #38bdf8;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            50% { transform: translateY(-30px) translateX(20px); opacity: 0.8; }
+        }
+
+        .particle:nth-child(1) { top: 15%; left: 10%; animation-delay: 0s; animation-duration: 5s; }
+        .particle:nth-child(2) { top: 25%; right: 15%; animation-delay: 1s; animation-duration: 6s; }
+        .particle:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 2s; animation-duration: 4s; }
+        .particle:nth-child(4) { bottom: 30%; right: 10%; animation-delay: 1.5s; animation-duration: 5.5s; }
+        .particle:nth-child(5) { top: 60%; left: 15%; animation-delay: 0.5s; animation-duration: 4.5s; }
+        .particle:nth-child(6) { top: 70%; right: 20%; animation-delay: 2.5s; animation-duration: 5s; }
+
+        /* Bottom accent */
+        .bottom-accent {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #0a66c2, #38bdf8, #8b5cf6, #38bdf8, #0a66c2);
+            background-size: 200% 100%;
+            animation: slideGradient 5s linear infinite;
+        }
+
+        @keyframes slideGradient {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .footer a {
+            color: #38bdf8;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1200px) {
+            .graphic {
+                width: 90vw;
+                height: 90vw;
+                max-width: 800px;
+                max-height: 800px;
+            }
+            
+            .milestone-number {
+                font-size: 180px;
+            }
+            
+            .connections-text {
+                font-size: 54px;
+            }
+            
+            .tagline {
+                font-size: 28px;
+            }
+
+            .header h1 {
+                font-size: 36px;
+            }
+
+            .controls {
+                padding: 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .milestone-number {
+                font-size: 120px;
+            }
+            
+            .connections-text {
+                font-size: 36px;
+                letter-spacing: 4px;
+            }
+            
+            .tagline {
+                font-size: 20px;
+            }
+
+            .linkedin-badge {
+                width: 80px;
+                height: 80px;
+                margin-bottom: 40px;
+            }
+
+            .linkedin-badge svg {
+                width: 50px;
+                height: 50px;
+            }
+
+            .input-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .input-group input {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="header">
+            <h1>🎯 LinkedIn Milestone Generator</h1>
+            <p>Create your professional milestone graphic in 30 seconds</p>
+        </div>
+
+        <div class="container">
+            <div class="controls">
+                <h2>Customize Your Milestone</h2>
+                <div class="input-group">
+                    <label for="milestone">Enter your number:</label>
+                    <input type="text" id="milestone" value="500" placeholder="500" maxlength="10">
+                    <button class="btn-download" onclick="downloadImage()">📥 Download Image (1080x1080)</button>
+                </div>
+
+                <div class="info-section">
+                    <h3>✨ How to use:</h3>
+                    <ul>
+                        <li>Type your milestone number (500, 1K, 5K, 10K, etc.)</li>
+                        <li>Click "Download Image" to get your graphic</li>
+                        <li>Post it on LinkedIn and celebrate! 🎉</li>
+                        <li>Share this tool with your network</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="canvas-wrapper">
+                <div class="graphic" id="graphic">
+                    <div class="bg-gradient"></div>
+                    <div class="grid-overlay"></div>
+                    <div class="noise"></div>
+                    
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    
+                    <div class="content">
+                        <div class="linkedin-badge">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                            </svg>
+                        </div>
+                        
+                        <div class="milestone-number" id="milestoneDisplay" data-number="500">500</div>
+                        
+                        <div class="connections-text">CONNECTIONS</div>
+                        
+                        <div class="decorative-line"></div>
+                        
+                        <div class="tagline">
+                            Building a network of <strong>incredible people</strong>,<br>
+                            one meaningful connection at a time
+                        </div>
+                    </div>
+                    
+                    <div class="bottom-accent"></div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>Made with ❤️ for the LinkedIn community · Free to use · Share the love</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        const input = document.getElementById('milestone');
+        const display = document.getElementById('milestoneDisplay');
+
+        // Update display when typing
+        input.addEventListener('input', function() {
+            const value = this.value || '500';
+            display.textContent = value;
+            display.setAttribute('data-number', value);
+        });
+
+        // Allow formatting (like 1K, 5K, 10K+)
+        input.addEventListener('keyup', function() {
+            // This allows users to type letters for formatting
+        });
+
+        async function downloadImage() {
+            const graphic = document.getElementById('graphic');
+            const button = document.querySelector('.btn-download');
+            
+            button.textContent = '⏳ Generating your image...';
+            button.disabled = true;
+            
+            try {
+                const canvas = await html2canvas(graphic, {
+                    backgroundColor: null,
+                    scale: 2,
+                    logging: false,
+                    width: 1080,
+                    height: 1080,
+                    windowWidth: 1080,
+                    windowHeight: 1080
+                });
+                
+                const link = document.createElement('a');
+                const milestoneValue = input.value.replace(/[^a-zA-Z0-9]/g, '');
+                link.download = `linkedin-${milestoneValue}-connections.png`;
+                link.href = canvas.toDataURL('image/png', 1.0);
+                link.click();
+                
+                button.textContent = '✅ Downloaded! Create another?';
+                setTimeout(() => {
+                    button.textContent = '📥 Download Image (1080x1080)';
+                    button.disabled = false;
+                }, 3000);
+            } catch (error) {
+                console.error('Download failed:', error);
+                button.textContent = '❌ Error - Please try again';
+                setTimeout(() => {
+                    button.textContent = '📥 Download Image (1080x1080)';
+                    button.disabled = false;
+                }, 3000);
+            }
+        }
+
+        // Initialize
+        window.addEventListener('load', function() {
+            console.log('LinkedIn Milestone Generator loaded successfully!');
+        });
+    </script>
+</body>
+</html>
