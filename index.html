@@ -3,97 +3,636 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Quay, This Is For You ❤️</title>
-<link rel="stylesheet" href="style.css">
+<meta name="theme-color" content="#080817">
+<title>For Quay ✨ | From Ayomide</title>
+
+<style>
+:root{
+  --bg:#050511;
+  --bg2:#10071c;
+  --text:#fff8fd;
+  --muted:#d7cad5;
+  --pink:#ff4f91;
+  --pink2:#ff8bb6;
+  --gold:#ffe39a;
+  --glass:rgba(16,12,30,.72);
+  --border:rgba(255,255,255,.14);
+}
+
+*{box-sizing:border-box}
+
+html,body{
+  margin:0;
+  width:100%;
+  min-height:100%;
+  font-family:Georgia,"Times New Roman",serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 50% 15%,rgba(86,43,105,.45),transparent 38%),
+    radial-gradient(circle at 15% 85%,rgba(255,79,145,.10),transparent 30%),
+    linear-gradient(135deg,var(--bg),var(--bg2));
+  overflow-x:hidden;
+}
+
+body{min-height:100vh}
+
+#starfield{
+  position:fixed;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+}
+
+.page{
+  display:none;
+  min-height:100vh;
+  width:100%;
+  position:relative;
+  z-index:2;
+  align-items:center;
+  justify-content:center;
+  padding:28px 18px;
+}
+
+.page.active{
+  display:flex;
+  animation:pageIn .75s ease both;
+}
+
+@keyframes pageIn{
+  from{opacity:0;transform:translateY(22px) scale(.985)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.container{
+  width:min(900px,100%);
+  text-align:center;
+}
+
+.card{
+  background:var(--glass);
+  border:1px solid var(--border);
+  border-radius:32px;
+  padding:clamp(28px,6vw,64px);
+  box-shadow:0 30px 100px rgba(0,0,0,.45);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+.eyebrow{
+  color:var(--gold);
+  text-transform:uppercase;
+  letter-spacing:3px;
+  font-family:Arial,sans-serif;
+  font-size:.72rem;
+  font-weight:700;
+  margin-bottom:18px;
+}
+
+h1{
+  margin:0 0 18px;
+  font-size:clamp(3.4rem,10vw,7.5rem);
+  line-height:.92;
+  letter-spacing:-3px;
+}
+
+h2{
+  margin:0 0 22px;
+  font-size:clamp(2.1rem,6vw,4.7rem);
+  line-height:1;
+}
+
+p{
+  margin:16px auto;
+  max-width:760px;
+  color:var(--muted);
+  font-size:clamp(1.03rem,2.2vw,1.25rem);
+  line-height:1.8;
+}
+
+strong{color:#fff}
+
+.small{
+  font-family:Arial,sans-serif;
+  font-size:.9rem;
+  color:#b9adba;
+}
+
+.quote{
+  margin:30px auto;
+  padding:20px 24px;
+  border-left:3px solid var(--pink);
+  max-width:720px;
+  text-align:left;
+  background:rgba(255,255,255,.035);
+  border-radius:0 18px 18px 0;
+  font-style:italic;
+  color:#f5e9f0;
+}
+
+.btn{
+  border:0;
+  border-radius:999px;
+  padding:15px 28px;
+  margin:10px 6px 0;
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:1rem;
+  cursor:pointer;
+  transition:transform .25s ease,box-shadow .25s ease,opacity .25s ease;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+}
+
+.primary{
+  color:#fff;
+  background:linear-gradient(135deg,var(--pink),var(--pink2));
+  box-shadow:0 12px 35px rgba(255,79,145,.25);
+}
+
+.secondary{
+  color:#fff;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.18);
+}
+
+.gate{
+  margin-top:28px;
+}
+
+.gateText{
+  color:var(--gold);
+  min-height:26px;
+  font-family:Arial,sans-serif;
+  font-size:.92rem;
+}
+
+.puzzle{
+  width:min(720px,100%);
+  margin:18px auto 0;
+  display:block;
+  touch-action:none;
+}
+
+.miniPuzzle{
+  width:min(620px,100%);
+}
+
+.star{
+  cursor:pointer;
+}
+
+.star circle{
+  fill:#fff;
+  stroke:rgba(255,255,255,.55);
+  stroke-width:2;
+  filter:drop-shadow(0 0 9px rgba(255,255,255,.9));
+  transition:fill .2s,transform .2s;
+}
+
+.star:hover circle{
+  fill:#ffeaf3;
+}
+
+.star text{
+  fill:#15101a;
+  font-family:Arial,sans-serif;
+  font-size:12px;
+  font-weight:800;
+  pointer-events:none;
+}
+
+.star.connected circle{
+  fill:var(--gold);
+  filter:drop-shadow(0 0 16px rgba(255,227,154,1));
+}
+
+.line{
+  fill:none;
+  stroke:rgba(255,255,255,.18);
+  stroke-width:2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+
+.line.done{
+  stroke:var(--gold);
+  stroke-width:4;
+  filter:drop-shadow(0 0 8px rgba(255,227,154,.8));
+}
+
+.hidden{display:none!important}
+
+.finalQuestion{
+  font-size:clamp(3rem,9vw,7rem);
+  line-height:.95;
+  letter-spacing:-3px;
+  margin:30px auto;
+}
+
+.progress{
+  position:fixed;
+  top:18px;
+  left:50%;
+  transform:translateX(-50%);
+  z-index:5;
+  font-family:Arial,sans-serif;
+  font-size:.72rem;
+  letter-spacing:2px;
+  color:rgba(255,255,255,.55);
+  text-transform:uppercase;
+}
+
+.heart{
+  display:inline-block;
+  color:var(--pink);
+  animation:pulse 1.8s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.18)}
+}
+
+#yesScreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:50;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:24px;
+  background:
+    radial-gradient(circle at 50% 35%,rgba(255,79,145,.35),transparent 35%),
+    linear-gradient(135deg,#190a20,#050511);
+}
+
+#yesScreen.show{display:flex}
+
+.yesCard{
+  width:min(800px,100%);
+  padding:55px 25px;
+}
+
+.yesCard h2{
+  font-size:clamp(3.2rem,9vw,7rem);
+  margin-bottom:15px;
+}
+
+.confetti{
+  position:fixed;
+  top:-30px;
+  width:9px;
+  height:18px;
+  z-index:60;
+  animation:fall 4.5s linear forwards;
+}
+
+@keyframes fall{
+  to{
+    transform:translateY(110vh) rotate(900deg);
+    opacity:.9;
+  }
+}
+
+@media(max-width:600px){
+  .page{padding:20px 12px}
+  .card{border-radius:24px;padding:30px 18px}
+  h1{letter-spacing:-2px}
+  .finalQuestion{letter-spacing:-2px}
+}
+</style>
 </head>
+
 <body>
-<div id="sky"></div>
-<div id="particles"></div>
 
-<main id="app">
-  <section class="page active" data-page="0">
-    <div class="story">
-      <div class="small">AYOMIDE → QUAY</div>
-      <div class="ornament">✦</div>
-      <h1>There is something<br><em>I need you to know.</em></h1>
-      <p class="intro">Before I ask you anything, I want you to take a little journey through the things I've never been able to put into words properly.</p>
-      <div class="unlock">
-        <p class="instruction">Connect the stars in order to begin.</p>
-        <div class="constellation" data-stars="5"></div>
-        <p class="status">Find star <b>1</b> ✦</p>
-      </div>
+<canvas id="starfield"></canvas>
+<div class="progress" id="progress">A little journey · 1 / 6</div>
+
+<!-- 1 -->
+<section class="page active" id="page1">
+  <div class="container card">
+    <div class="eyebrow">For Quay · From Ayomide</div>
+    <h1>Hey, Quay.</h1>
+    <p>
+      There is something I need you to know.
+      Before I ask you anything, I want you to take a little journey through
+      the things I've never been able to put into words properly.
+    </p>
+    <p class="small">Connect the stars in order to begin.</p>
+
+    <svg class="puzzle" viewBox="0 0 760 420" data-puzzle="p1">
+      <polyline class="line" points=""></polyline>
+      <g class="star" data-order="1" data-x="70" data-y="220"><circle cx="70" cy="220" r="15"/><text x="70" y="224" text-anchor="middle">1</text></g>
+      <g class="star" data-order="2" data-x="180" data-y="100"><circle cx="180" cy="100" r="15"/><text x="180" y="104" text-anchor="middle">2</text></g>
+      <g class="star" data-order="3" data-x="310" data-y="185"><circle cx="310" cy="185" r="15"/><text x="310" y="189" text-anchor="middle">3</text></g>
+      <g class="star" data-order="4" data-x="455" data-y="80"><circle cx="455" cy="80" r="15"/><text x="455" y="84" text-anchor="middle">4</text></g>
+      <g class="star" data-order="5" data-x="620" data-y="175"><circle cx="620" cy="175" r="15"/><text x="620" y="179" text-anchor="middle">5</text></g>
+      <g class="star" data-order="6" data-x="555" data-y="330"><circle cx="555" cy="330" r="15"/><text x="555" y="334" text-anchor="middle">6</text></g>
+      <g class="star" data-order="7" data-x="360" data-y="360"><circle cx="360" cy="360" r="15"/><text x="360" y="364" text-anchor="middle">7</text></g>
+      <g class="star" data-order="8" data-x="175" data-y="315"><circle cx="175" cy="315" r="15"/><text x="175" y="319" text-anchor="middle">8</text></g>
+    </svg>
+
+    <div class="gateText" data-status="p1">Find star 1 ✦</div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section class="page" id="page2">
+  <div class="container card">
+    <div class="eyebrow">Chapter 01 · Why you</div>
+    <h2>Quay, you are more than just a girl I like.</h2>
+    <p>
+      You are someone who found a way into my heart without needing to force
+      your way in.
+    </p>
+    <p>
+      It's the way you care. The way you make ordinary moments feel different.
+      The way your presence can change the mood of a day.
+    </p>
+    <div class="quote">
+      I want you to be mine because of who you are — not because you're perfect,
+      but because there is something about you that I don't want to lose.
     </div>
-  </section>
 
-  <section class="page" data-page="1">
-    <div class="story">
-      <div class="small">01 · WHY YOU</div>
-      <div class="ornament">♡</div>
-      <h2>Quay, you are more than just a girl I like.</h2>
-      <p>You are someone who found a way into my heart without needing to force your way in.</p>
-      <p>It's the way you care. The way you make ordinary moments feel different. The way your presence can change the mood of a day.</p>
-      <p class="strong">I want you to be mine because of who you are — not because you're perfect, but because there is something about you that I don't want to lose.</p>
-      <div class="unlock"><p class="instruction">One more constellation. Keep going. ✦</p><div class="constellation" data-stars="6"></div><p class="status">Find star <b>1</b> ✦</p></div>
+    <div class="gate">
+      <p class="small">One more constellation. Connect it to continue.</p>
+      <svg class="puzzle miniPuzzle" viewBox="0 0 620 190" data-puzzle="p2">
+        <polyline class="line" points=""></polyline>
+        <g class="star" data-order="1" data-x="50" data-y="120"><circle cx="50" cy="120" r="12"/><text x="50" y="124" text-anchor="middle">1</text></g>
+        <g class="star" data-order="2" data-x="160" data-y="45"><circle cx="160" cy="45" r="12"/><text x="160" y="49" text-anchor="middle">2</text></g>
+        <g class="star" data-order="3" data-x="285" data-y="115"><circle cx="285" cy="115" r="12"/><text x="285" y="119" text-anchor="middle">3</text></g>
+        <g class="star" data-order="4" data-x="420" data-y="40"><circle cx="420" cy="40" r="12"/><text x="420" y="44" text-anchor="middle">4</text></g>
+        <g class="star" data-order="5" data-x="565" data-y="120"><circle cx="565" cy="120" r="12"/><text x="565" y="124" text-anchor="middle">5</text></g>
+      </svg>
+      <div class="gateText" data-status="p2">Find star 1 ✦</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="page" data-page="2">
-    <div class="story">
-      <div class="small">02 · I REMEMBER</div>
-      <div class="ornament">✧</div>
-      <h2>Some things time can never make me forget.</h2>
-      <p>I will never forget the way you supported me in school. Those moments may have looked small, but they weren't small to me.</p>
-      <p>You encouraged me. You stood beside me. You made things easier when they weren't easy.</p>
-      <p>And yes, I messed up. I know I did. But you forgave me — and that forgiveness showed me a part of your heart I will always appreciate.</p>
-      <p class="strong">I may not say it enough, but thank you for being there when you didn't have to be.</p>
-      <div class="unlock"><p class="instruction">Connect them. There's more I want to tell you. ✦</p><div class="constellation" data-stars="7"></div><p class="status">Find star <b>1</b> ✦</p></div>
+<!-- 3 -->
+<section class="page" id="page3">
+  <div class="container card">
+    <div class="eyebrow">Chapter 02 · I remember</div>
+    <h2>I can't forget what you did for me.</h2>
+    <p>
+      I remember how you supported me through school, even during moments
+      when things were not easy.
+    </p>
+    <p>
+      And I remember the mistakes I made. I know I messed up.
+      What means even more to me is that <strong>you forgave me.</strong>
+    </p>
+    <p>
+      I don't take that kindness lightly. I don't take <strong>you</strong>
+      lightly either.
+    </p>
+
+    <div class="gate">
+      <p class="small">You know the rule by now. Find the stars in order.</p>
+      <svg class="puzzle miniPuzzle" viewBox="0 0 620 190" data-puzzle="p3">
+        <polyline class="line" points=""></polyline>
+        <g class="star" data-order="1" data-x="55" data-y="95"><circle cx="55" cy="95" r="12"/><text x="55" y="99" text-anchor="middle">1</text></g>
+        <g class="star" data-order="2" data-x="175" data-y="35"><circle cx="175" cy="35" r="12"/><text x="175" y="39" text-anchor="middle">2</text></g>
+        <g class="star" data-order="3" data-x="300" data-y="135"><circle cx="300" cy="135" r="12"/><text x="300" y="139" text-anchor="middle">3</text></g>
+        <g class="star" data-order="4" data-x="435" data-y="55"><circle cx="435" cy="55" r="12"/><text x="435" y="59" text-anchor="middle">4</text></g>
+        <g class="star" data-order="5" data-x="565" data-y="110"><circle cx="565" cy="110" r="12"/><text x="565" y="114" text-anchor="middle">5</text></g>
+      </svg>
+      <div class="gateText" data-status="p3">Find star 1 ✦</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="page" data-page="3">
-    <div class="story">
-      <div class="small">03 · MY PROMISE</div>
-      <div class="ornament">∞</div>
-      <h2>I'm not going to promise you perfection.</h2>
-      <p>Because I'm human. I'll have days when I get things wrong. I'll have things to learn, and I'll keep growing.</p>
-      <p>But I can promise you something more honest: <strong>I will keep choosing you.</strong></p>
-      <p>I want to celebrate your wins, hold your hand through the hard days, listen when you need to be heard, and build something we can both be proud of.</p>
-      <p class="strong">I want to give us the best life life can offer — and I want to build that life with you.</p>
-      <div class="unlock"><p class="instruction">The next stars are waiting. ✦</p><div class="constellation" data-stars="6"></div><p class="status">Find star <b>1</b> ✦</p></div>
+<!-- 4 -->
+<section class="page" id="page4">
+  <div class="container card">
+    <div class="eyebrow">Chapter 03 · My promise</div>
+    <h2>I'm not perfect.</h2>
+    <p>
+      I know there will be days when I get things wrong. There will be things
+      I still have to learn about love, about you, and about us.
+    </p>
+    <p>
+      But one thing I can promise is that I will keep choosing you.
+      I will give us my effort, my honesty, my patience, and everything I can
+      to build a beautiful life together.
+    </p>
+    <div class="quote">
+      I may not be able to promise perfection, but I can promise that
+      <strong>I'll always try to give us my best.</strong>
     </div>
-  </section>
 
-  <section class="page" data-page="4">
-    <div class="story">
-      <div class="small">04 · JUST YOU</div>
-      <div class="ornament">♾</div>
-      <h2>I don't want to be another chapter.</h2>
-      <p>I want to be the man who stays. The man you can call when everything is going right and when everything feels wrong.</p>
-      <p>I want this to be the first and last time a man has to stand in front of you and ask you to choose him.</p>
-      <p class="strong">Because if you choose me, I want to spend every day becoming the right man for you — your partner, your person, your home.</p>
-      <p>And if life gives me the chance, Quay, I want to be your only one.</p>
-      <div class="unlock"><p class="instruction">Connect the final stars. Then you'll see what I've been building toward. ✦</p><div class="constellation" data-stars="8"></div><p class="status">Find star <b>1</b> ✦</p></div>
+    <div class="gate">
+      <p class="small">Keep going. There is something waiting at the next page.</p>
+      <svg class="puzzle miniPuzzle" viewBox="0 0 620 190" data-puzzle="p4">
+        <polyline class="line" points=""></polyline>
+        <g class="star" data-order="1" data-x="45" data-y="120"><circle cx="45" cy="120" r="12"/><text x="45" y="124" text-anchor="middle">1</text></g>
+        <g class="star" data-order="2" data-x="150" data-y="45"><circle cx="150" cy="45" r="12"/><text x="150" y="49" text-anchor="middle">2</text></g>
+        <g class="star" data-order="3" data-x="290" data-y="120"><circle cx="290" cy="120" r="12"/><text x="290" y="124" text-anchor="middle">3</text></g>
+        <g class="star" data-order="4" data-x="430" data-y="45"><circle cx="430" cy="45" r="12"/><text x="430" y="49" text-anchor="middle">4</text></g>
+        <g class="star" data-order="5" data-x="570" data-y="120"><circle cx="570" cy="120" r="12"/><text x="570" y="124" text-anchor="middle">5</text></g>
+      </svg>
+      <div class="gateText" data-status="p4">Find star 1 ✦</div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="page final" data-page="5">
-    <div class="story final-story">
-      <div class="small">05 · THE QUESTION</div>
-      <div class="big-heart">♥</div>
-      <h1>Quay...</h1>
-      <h2 class="question">Will you be<br><em>my girlfriend?</em></h2>
-      <p class="intro">No grand speech can say everything I feel. So I'll simply ask the one question that brought you through all those stars.</p>
-      <div class="buttons">
-        <button id="yes">YES, AYOMIDE ♥</button>
-        <button id="maybe">I need a little time</button>
-      </div>
-      <p id="response"></p>
+<!-- 5 -->
+<section class="page" id="page5">
+  <div class="container card">
+    <div class="eyebrow">Chapter 04 · The one</div>
+    <h2>I don't want this to be temporary.</h2>
+    <p>
+      This is the first time I'm asking someone this way, and I want it to
+      mean something.
+    </p>
+    <p>
+      I don't want to be another name in a list of people who came and went.
+      I want to be the man who stays. The man who learns you. The man who
+      protects what we have.
+    </p>
+    <p>
+      I want to be <strong>your only one</strong> — and, more importantly,
+      I want to be <strong>the right one.</strong>
+    </p>
+
+    <div class="gate">
+      <p class="small">The final constellation is waiting. ✨</p>
+      <svg class="puzzle miniPuzzle" viewBox="0 0 620 190" data-puzzle="p5">
+        <polyline class="line" points=""></polyline>
+        <g class="star" data-order="1" data-x="55" data-y="105"><circle cx="55" cy="105" r="12"/><text x="55" y="109" text-anchor="middle">1</text></g>
+        <g class="star" data-order="2" data-x="170" data-y="35"><circle cx="170" cy="35" r="12"/><text x="170" y="39" text-anchor="middle">2</text></g>
+        <g class="star" data-order="3" data-x="305" data-y="125"><circle cx="305" cy="125" r="12"/><text x="305" y="129" text-anchor="middle">3</text></g>
+        <g class="star" data-order="4" data-x="450" data-y="35"><circle cx="450" cy="35" r="12"/><text x="450" y="39" text-anchor="middle">4</text></g>
+        <g class="star" data-order="5" data-x="570" data-y="105"><circle cx="570" cy="105" r="12"/><text x="570" y="109" text-anchor="middle">5</text></g>
+      </svg>
+      <div class="gateText" data-status="p5">Find star 1 ✦</div>
     </div>
-  </section>
-</main>
+  </div>
+</section>
 
-<div id="counter">01 / 06</div>
-<div id="toast"></div>
-<script src="script.js"></script>
+<!-- 6 -->
+<section class="page" id="page6">
+  <div class="container card">
+    <div class="eyebrow">Chapter 05 · The question</div>
+    <p>
+      Quay, I've said everything I know how to say.
+      So there is only one thing left.
+    </p>
+
+    <div class="finalQuestion">
+      Will you be my girlfriend? <span class="heart">♥</span>
+    </div>
+
+    <p>
+      No pressure. No perfect answer. Just the truth from your heart.
+    </p>
+
+    <button class="btn primary" id="yesBtn">Yes, Ayomide ❤️</button>
+    <button class="btn secondary" id="thinkBtn">Let me think 🥹</button>
+    <p id="thinkMsg" class="hidden">Take your time. I'll still be here. ❤️</p>
+  </div>
+</section>
+
+<div id="yesScreen">
+  <div class="yesCard">
+    <div class="eyebrow">The answer I was hoping for</div>
+    <h2>Quay said YES! <span class="heart">♥</span></h2>
+    <p>Then let this be the beginning of something beautiful.</p>
+    <p class="small">Quay ❤️ Ayomide</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* Background stars */
+  const canvas=document.getElementById("starfield");
+  const ctx=canvas.getContext("2d");
+  let stars=[];
+
+  function resizeCanvas(){
+    const dpr=Math.min(window.devicePixelRatio||1,2);
+    canvas.width=Math.floor(innerWidth*dpr);
+    canvas.height=Math.floor(innerHeight*dpr);
+    canvas.style.width=innerWidth+"px";
+    canvas.style.height=innerHeight+"px";
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+
+    stars=Array.from({length:Math.min(170,Math.floor(innerWidth/6))},()=>({
+      x:Math.random()*innerWidth,
+      y:Math.random()*innerHeight,
+      r:Math.random()*1.5+.25,
+      a:Math.random()*.65+.2,
+      speed:Math.random()*.012+.003,
+      phase:Math.random()*Math.PI*2
+    }));
+  }
+
+  function drawStars(t){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
+    for(const s of stars){
+      const alpha=s.a+(Math.sin(t*s.speed+s.phase)*.16);
+      ctx.beginPath();
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle="rgba(255,255,255,"+Math.max(.05,alpha)+")";
+      ctx.fill();
+    }
+    requestAnimationFrame(drawStars);
+  }
+
+  resizeCanvas();
+  addEventListener("resize",resizeCanvas);
+  requestAnimationFrame(drawStars);
+
+  /* Page navigation */
+  const pages=[1,2,3,4,5,6];
+  let currentPage=1;
+
+  function showPage(n){
+    pages.forEach(i=>{
+      const el=document.getElementById("page"+i);
+      if(el) el.classList.toggle("active",i===n);
+    });
+    currentPage=n;
+    document.getElementById("progress").textContent="A little journey · "+n+" / 6";
+    window.scrollTo({top:0,behavior:"smooth"});
+  }
+
+  /* Each constellation unlocks the next page */
+  document.querySelectorAll(".puzzle").forEach(svg=>{
+    const stars=[...svg.querySelectorAll(".star")].sort(
+      (a,b)=>Number(a.dataset.order)-Number(b.dataset.order)
+    );
+    const line=svg.querySelector(".line");
+    const status=document.querySelector('[data-status="'+svg.dataset.puzzle+'"]');
+    let next=1;
+    let points=[];
+    let finished=false;
+
+    function setStatus(text){
+      if(status) status.textContent=text;
+    }
+
+    stars.forEach(star=>{
+      star.addEventListener("click",()=>{
+        if(finished) return;
+
+        const order=Number(star.dataset.order);
+
+        if(order===next){
+          star.classList.add("connected");
+          points.push(star.dataset.x+","+star.dataset.y);
+          line.setAttribute("points",points.join(" "));
+          next++;
+
+          if(next>stars.length){
+            finished=true;
+            line.classList.add("done");
+            setStatus("Constellation complete ✨");
+
+            const puzzleNumber=Number(svg.dataset.puzzle.replace("p",""));
+            if(puzzleNumber<5){
+              setTimeout(()=>showPage(puzzleNumber+2),850);
+            }else{
+              setTimeout(()=>showPage(6),850);
+            }
+          }else{
+            setStatus("Beautiful. Now find star "+next+" ✦");
+          }
+        }else{
+          setStatus("Not that one ❤️ Start with star "+next+".");
+        }
+      });
+    });
+  });
+
+  /* Final answer */
+  const yesScreen=document.getElementById("yesScreen");
+  document.getElementById("yesBtn").addEventListener("click",()=>{
+    yesScreen.classList.add("show");
+    for(let i=0;i<110;i++){
+      const c=document.createElement("div");
+      c.className="confetti";
+      c.style.left=(Math.random()*100)+"vw";
+      c.style.animationDelay=(Math.random()*1.5)+"s";
+      c.style.transform="rotate("+Math.random()*360+"deg)";
+      c.style.background=["#ff4f91","#ffe39a","#ffffff","#ff8bb6"][Math.floor(Math.random()*4)];
+      document.body.appendChild(c);
+      setTimeout(()=>c.remove(),6000);
+    }
+  });
+
+  document.getElementById("thinkBtn").addEventListener("click",()=>{
+    document.getElementById("thinkMsg").classList.remove("hidden");
+  });
+})();
+</script>
+
 </body>
 </html>
